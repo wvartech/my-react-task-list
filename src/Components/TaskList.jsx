@@ -6,7 +6,7 @@ export default function TaskList(props){
     return (
         <div>
            { tasks.map((task,index) => (
-              <Task key={task.id} task={task.task} />
+              <Task key={task.id} id={task.id} task={task.task} desc={task.desc} checked={task.checked}/>
             )
             )
             }
