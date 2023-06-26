@@ -4,8 +4,10 @@ import { ListContext } from "../App";
 export function Task(props){
 
    const [complete,setCompleted] = useState(props.checked);
-   const [content,setContent] = useState(props.task);
-   const {tasks,updateTaskList} = useContext(ListContext);
+   const {tasks,updateTaskList,removeTask,updateTask} = useContext(ListContext);
+   const [content,setContent] = useState(tasks[tasks.findIndex(task => task.id === props.id)].desc);
+   const [taskTitle,setTaskTitle] = useState(tasks[tasks.findIndex(task => task.id === props.id)].task);
+   const [editing,setEditing] = useState(false);
 
     function handleCheckBoxClicked(){
         let updatedTaskList = [...tasks];
@@ -19,13 +21,51 @@ export function Task(props){
         setCompleted(!complete);
     }
 
+    function handleButtonDelete(){
+        removeTask(props.id);
+    }  
+    
+    function handleButtonEditDone(){        
+        const index = tasks.findIndex(task => task.id === props.id);
+        let editedElementData = {...tasks[index]};
+        editedElementData.task = taskTitle;
+        editedElementData.desc = content;
+        updateTask(props.id, editedElementData);
+        setEditing(false);
+    }
+
+    function renderElement(){
+
+        if (editing){
+            return (
+                <div>
+                <label> Task:
+                    <input type="text" value={taskTitle} onChange={(e) => setTaskTitle(e.target.value) }/>
+                </label>                
+                <label> Description:
+                    <input type="text" value={content} onChange={(e) => setContent(e.target.value) }/>
+                </label>
+                <button onClick={handleButtonEditDone}>Done</button>
+
+            </div>
+            )
+        }else{
+            return (
+                <div>
+                <label style={ {textDecoration: complete ? 'line-through' : 'none'} }>
+                   {taskTitle}
+                    <input type="checkbox" checked={complete} onChange={handleCheckBoxClicked} />
+                    <button onClick={handleButtonDelete}>Delete</button>
+                    <button onClick={() => setEditing(true) }>Edit</button>
+                </label>
+                <p>{content}</p>
+            </div>
+            )
+        }        
+    }
+
+
     return (
-        <div>
-            <label style={ {textDecoration: complete ? 'line-through' : 'none'} }>
-               {content}
-                <input type="checkbox" checked={complete} onChange={handleCheckBoxClicked} />
-            </label>
-            <p>{props.desc}</p>
-        </div>
-    );
+        renderElement()
+    )
 };
