@@ -5,6 +5,7 @@ import TaskList from "./Components/TaskList"
 export const ListContext = createContext();
 import { useState } from "react";
 import { useEffect } from "react";
+import "./App.css";
 
 function App() {
   
@@ -72,7 +73,7 @@ function App() {
     <ListContext.Provider value={{tasks, updateTaskList, addTask,removeTask,updateTask}}>
 
       <div>
-        <Header name="El Titulo" />
+        <Header name="React Task List" />
         <TaskList tasks={tasks} />
       </div>
     </ListContext.Provider>

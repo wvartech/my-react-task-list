@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { ListContext } from "../App";
+import { useEffect } from "react";
 
 export function Task(props){
 
@@ -8,6 +9,17 @@ export function Task(props){
    const [content,setContent] = useState(tasks[tasks.findIndex(task => task.id === props.id)].desc);
    const [taskTitle,setTaskTitle] = useState(tasks[tasks.findIndex(task => task.id === props.id)].task);
    const [editing,setEditing] = useState(false);
+
+   useEffect(() => {
+    const index = tasks.findIndex(task => task.id === props.id);
+    if (index !== -1) {
+      const task = tasks[index];
+      setCompleted(task.checked);
+      setContent(task.desc);
+      setTaskTitle(task.task);
+    }
+  }, [tasks, props.id]);
+   
 
     function handleCheckBoxClicked(){
         let updatedTaskList = [...tasks];
