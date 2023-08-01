@@ -28,35 +28,58 @@ export default function TaskList(props){
 
     return (
         <>
-        <div>
+          <div className="container">
             <form onSubmit={handleSubmit((data) => {
-                createTask(data);
-            })  }>
-                <label> Task:
-                    <input type="text" placeholder="Task Name" {...register(
-                        "task",
-                        {required: "Task name is required",
-                        minLength: {value:3, message: "Task name must be longer than 3 characters"},                        
-                        onChange: () => trigger("task")
-                        }                        
-                    )} />
-                </label>  
-                <span className="error" role="alert" > {errors.task?.message}  </span>              
-                <label> Description:
-                    <input type="text" placeholder="Task Description" {...register("description")} />
-                </label>
-                <input type="submit" value="Create Task" />
+              createTask(data);
+            })}>
+              <div className="form-group">
+                <label>Task:</label>
+                <input
+                  type="text"
+                  placeholder="Task Name"
+                  {...register("task", {
+                    required: "Task name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Task name must be longer than 3 characters"
+                    },
+                    onChange: () => trigger("task")
+                  })}
+                  className={`form-control ${errors.task ? 'is-invalid' : ''}`}
+                />
+                {errors.task && (
+                  <span className="invalid-feedback" role="alert">
+                    {errors.task.message}
+                  </span>
+                )}
+              </div>
+              <div className="form-group">
+                <label>Description:</label>
+                <input
+                  type="text"
+                  placeholder="Task Description"
+                  {...register("description")}
+                  className="form-control"
+                />
+              </div>
+              <input type="submit" value="Create Task" className="btn btn-primary" />
             </form>
-        </div>
-        <div>
-           { tasks.map((task,index) => (
-              <Task key={index} id={task.id} task={task.task} desc={task.desc} checked={task.checked}/>
-            )
-            )
-            }
-        </div>
-
+          </div>
+          <div>
+            <div className="d-flex flex-column align-items-center">
+              {tasks.map((task, index) => (
+                <div className="mb-4" key={index}>
+                  <Task
+                    id={task.id}
+                    task={task.task}
+                    desc={task.desc}
+                    checked={task.checked}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </>
-    );
+      );
 
 };
