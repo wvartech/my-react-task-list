@@ -11,8 +11,8 @@ export default function TaskList(props){
         description: "",
     });
 
-    const tasks = props.tasks;
-    const {addTask} = useContext(ListContext)
+    const {tasks} = useContext(ListContext);
+    const {addTask} = useContext(ListContext);
 
     const [task,setTask] = useState("");
     const [description,setDescription] = useState("");

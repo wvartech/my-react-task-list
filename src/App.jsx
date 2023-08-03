@@ -5,6 +5,43 @@ import TaskList from "./Components/TaskList"
 export const ListContext = createContext();
 import { useState } from "react";
 import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Home } from "./Components/Home";
+import { About } from "./Components/About";
+import { Tareas } from "./Components/Tareas";
+
+export function Menu(){
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/App">App</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+}
+
+export function AppRouter(){
+  return (
+    <>
+      <Menu />
+      <Routes>
+        <Route path="App" element={<> <Header name="React Task List" />
+         <Tareas /> </>} />
+         <Route path="about" element={<About />} />
+         <Route path="/" element={ <Home/> } />
+
+      </Routes>
+    </>
+  )
+}
 
 function App() {
   
@@ -65,7 +102,7 @@ function App() {
       localStorage.setItem("storedTaskList", JSON.stringify(list));
       setTasks(list);      
     }
-
+    
 
   return (
     <>
@@ -73,8 +110,10 @@ function App() {
 
       <div  className="d-flex flex-column align-items-center">
        <div className="container text-center">
-         <Header name="React Task List" />
-         <TaskList tasks={tasks} />
+        <BrowserRouter>
+          <AppRouter/>
+        </BrowserRouter>
+        
        </div>
       </div>
     </ListContext.Provider>
