@@ -3,6 +3,7 @@ import { Task } from "./Task";
 import { ListContext } from "../App";
 import { useState } from "react";
 import { useForm } from "react-hook-form"
+import {Flex, Box, SimpleGrid,Input, Button, Text} from "@chakra-ui/react";
 
 export default function TaskList(props){
 
@@ -28,56 +29,55 @@ export default function TaskList(props){
 
     return (
         <>
-          <div className="container">
-            <form onSubmit={handleSubmit((data) => {
-              createTask(data);
-            })}>
-              <div className="form-group">
-                <label>Task:</label>
-                <input
-                  type="text"
-                  placeholder="Task Name"
-                  {...register("task", {
-                    required: "Task name is required",
-                    minLength: {
-                      value: 3,
-                      message: "Task name must be longer than 3 characters"
-                    },
-                    onChange: () => trigger("task")
-                  })}
-                  className={`form-control ${errors.task ? 'is-invalid' : ''}`}
-                />
-                {errors.task && (
-                  <span className="invalid-feedback" role="alert">
-                    {errors.task.message}
-                  </span>
-                )}
-              </div>
-              <div className="form-group">
-                <label>Description:</label>
-                <input
-                  type="text"
-                  placeholder="Task Description"
-                  {...register("description")}
-                  className="form-control"
-                />
-              </div>
-              <input type="submit" value="Create Task" className="btn btn-primary" />
-            </form>
-          </div>
+          <Box p="4" borderWidth="1px" borderColor="gray.200" borderRadius="md" maxWidth="400px" mx="auto">
+  <form onSubmit={handleSubmit((data) => createTask(data))}>
+    <Flex direction="column" alignItems="center" spacing={4}>
+      <Text fontSize="xl" mb="2">
+        Create a New Task
+      </Text>
+      <Input
+        type="text"
+        placeholder="Task Name"
+        {...register("task", {
+          required: "Task name is required",
+          minLength: {
+            value: 3,
+            message: "Task name must be longer than 3 characters",
+          },
+          onChange: () => trigger("task"),
+        })}
+        className={`form-control ${errors.task ? 'is-invalid' : ''}`}
+      />
+      {errors.task && (
+        <Text color="red" fontSize="sm">
+          {errors.task.message}
+        </Text>
+      )}
+      <Input
+        type="text"
+        placeholder="Task Description"
+        {...register("description")}
+        className="form-control"
+      />
+      <Button colorScheme="blue" type="submit">
+        Create Task
+      </Button>
+    </Flex>
+  </form>
+</Box>
           <div>
-            <div className="d-flex flex-column align-items-center">
+            <SimpleGrid columns={{sm:1,md:2,lg:3}} spacing={4}>
               {tasks.map((task, index) => (
-                <div className="mb-4" key={index}>
+                <Box className="mb-4" key={index}>
                   <Task
                     id={task.id}
                     task={task.task}
                     desc={task.desc}
                     checked={task.checked}
                   />
-                </div>
+                </Box>
               ))}
-            </div>
+            </SimpleGrid>
           </div>
         </>
       );

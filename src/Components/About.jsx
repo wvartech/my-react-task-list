@@ -1,11 +1,16 @@
-export function About(props){
+import {Box, Heading, Text, Center} from "@chakra-ui/react";
 
-
-    return(
-        <div>
-            <h1>React Task List</h1>
-            <p>React Task List es una sencilla applicacion Web desarrollada utilizando React y otras librerias para darle dynamismo e interactividad. Puedes crear tareas, agregarlas, y editarlas, todo esto sin tener que recargar la pagina.</p>
-        </div>
-    )
-
-}
+export function About(props) {
+    return (
+      <Center h="60vh">
+        <Box p={4} textAlign="center" maxW="650px">
+          <Heading as="h1" size="xl">
+            React Task List
+          </Heading>
+          <Text fontSize="lg" mt="4">
+            React Task List es una sencilla aplicación web desarrollada utilizando React y otras librerías para darle dinamismo e interactividad. Puedes crear tareas, agregarlas y editarlas, todo esto sin tener que recargar la página.
+          </Text>
+        </Box>
+      </Center>
+    );
+  }

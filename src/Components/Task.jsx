@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ListContext } from "../App";
 import { useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Flex, Box, Button, Checkbox, Input, Text } from "@chakra-ui/react";
 
 export function Task(props){
 
@@ -48,64 +48,57 @@ export function Task(props){
     }
 
     function renderElement() {
-        if (editing) {
-          return (
-            <div className="card">
-              <div className="card-body">
-                <div className="form-group">
-                  <label>Task:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={taskTitle}
-                    onChange={(e) => setTaskTitle(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Description:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                  />
-                </div>
-                <button className="btn btn-primary" onClick={handleButtonEditDone}>
-                  Done
-                </button>
-              </div>
-            </div>
-          );
-        } else {
-          return (
-            <div className={`card ${complete ? 'bg-light' : ''}`}>
-              <div className="card-body">
-                <div className="form-group">
-                  <label
-                    style={{
-                      textDecoration: complete ? 'line-through' : 'none'
-                    }}
-                  >
-                    {taskTitle}
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      checked={complete}
-                      onChange={handleCheckBoxClicked}
-                    />
-                  </label>
-                  <button className="btn btn-danger" onClick={handleButtonDelete}>
-                    Delete
-                  </button>
-                  <button className="btn btn-secondary" onClick={() => setEditing(true)}>
-                    Edit
-                  </button>
-                </div>
-                <p>{content}</p>
-              </div>
-            </div>
-          );
-        }
+      return (
+        <Flex
+      direction="column"
+      borderWidth="1px"
+      borderColor="gray.200"
+      borderRadius="md"
+      p="4"
+      bg={complete ? "gray.100" : "white"}
+      flex="1"
+    >
+      {editing ? (
+        <Box>
+          <Input
+            mb="2"
+            value={taskTitle}
+            onChange={(e) => setTaskTitle(e.target.value)}
+          />
+          <Input
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <Button colorScheme="teal" size="sm" onClick={handleButtonEditDone}>
+            Done
+          </Button>
+        </Box>
+      ) : (
+        <Box>
+          <Flex justify="space-between" align="center">
+            <Checkbox
+              isChecked={complete}
+              onChange={handleCheckBoxClicked}
+            >
+              <Text isTruncated={true}>{taskTitle}</Text>
+            </Checkbox>
+            <Button colorScheme="red" size="sm" onClick={handleButtonDelete}>
+              Delete
+            </Button>
+            <Button colorScheme="teal" size="sm" onClick={() => setEditing(true)}>
+              Edit
+            </Button>
+          </Flex>
+          <Box
+            mt="2"
+            textDecoration={complete ? "line-through" : "none"}
+          >
+            <Text isTruncated={true}>{content}</Text>
+          </Box>
+        </Box>
+      )}
+    </Flex>
+  );
       }
 
 

@@ -9,22 +9,24 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Home } from "./Components/Home";
 import { About } from "./Components/About";
 import { Tareas } from "./Components/Tareas";
+import { ChakraProvider, Link as ChakraLink, Box, Flex } from '@chakra-ui/react'
 
-export function Menu(){
+
+export function Menu() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/App">App</Link>
-        </li>
-      </ul>
-    </nav>
+    <Flex as="nav" align="center" justify="center" p={4} bg="teal.500" color="white">
+      <Box>
+        <ChakraLink as={Link} to="/" mx={2}>
+          Home
+        </ChakraLink>
+        <ChakraLink as={Link} to="/about" mx={2}>
+          About
+        </ChakraLink>
+        <ChakraLink as={Link} to="/App" mx={2}>
+          App
+        </ChakraLink>
+      </Box>
+    </Flex>
   );
 }
 
@@ -33,8 +35,7 @@ export function AppRouter(){
     <>
       <Menu />
       <Routes>
-        <Route path="App" element={<> <Header name="React Task List" />
-         <Tareas /> </>} />
+        <Route path="App" element={<> <Tareas /> </>} />
          <Route path="about" element={<About />} />
          <Route path="/" element={ <Home/> } />
 
@@ -105,7 +106,7 @@ function App() {
     
 
   return (
-    <>
+    <ChakraProvider>
     <ListContext.Provider value={{tasks, updateTaskList, addTask,removeTask,updateTask}}>
 
       <div  className="d-flex flex-column align-items-center">
@@ -117,7 +118,7 @@ function App() {
        </div>
       </div>
     </ListContext.Provider>
-    </>
+    </ChakraProvider>
   )
 }
 
